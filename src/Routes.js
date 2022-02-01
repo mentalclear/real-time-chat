@@ -1,10 +1,18 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { PrivateRoute } from "./auth";
+import { PrivateRoute, SignInPage } from "./auth";
+import { ConversationsListPage } from "./conversations";
 import { NavBar } from "./navigation";
 
-const routes = [
-];
+const routes = [{
+  path: '/sign-in',
+  Component: SignInPage,
+}, {
+  path: '/',
+  private: true,
+  exact: true,
+  Component: ConversationsListPage,
+}];
 
 export const Routes = ({isLoading, user}) => (
   <Router> 
