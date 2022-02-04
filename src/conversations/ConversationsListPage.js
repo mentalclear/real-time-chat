@@ -8,7 +8,25 @@ export const ConversationsListPage = () => {
     const { isLoading, data: conversations } = useProtectedResource(`/users/${user.uid}/conversations`, []);
     console.log(conversations);
 
-    return (
-        <h1>This is the Conversations List Page</h1>
-    )
+    return isLoading 
+        ? <p>Loading messages...</p>
+        : (
+            <div className="centered-container">
+                <h1 className="section-heading">Conversations List</h1>
+                {conversations.map(conversation => (
+                    <Link 
+                        to={`/conversations/${conversation._id}`}
+                        key={conversation._id}>
+
+                        <div className="list-item">
+                            <h3>{conversation.name}</h3>
+                            <p>{conversation.memberIds.length} members</p>
+                        </div>
+                    </Link>
+                ))}
+                <Link to='/new-conversation'>
+                    <button className="full-width space-before">New Conversation</button>
+                </Link>
+            </div>
+        );
 }

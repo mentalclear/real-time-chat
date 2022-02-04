@@ -12,7 +12,7 @@ export const NavBar = ({user}) => {
   return (
     <nav>
         <Link to="/">
-            <h1 className="app-heading">Photo Sharing App</h1>
+            <h1 className="app-heading">Real-Time Chat App</h1>
         </Link>
         {user 
           ?(
