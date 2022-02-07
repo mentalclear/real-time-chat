@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { PrivateRoute, SignInPage } from "./auth";
-import { ConversationsListPage, NewConversationPage } from "./conversations";
+import { ConversationsListPage, ConversationPage, NewConversationPage } from "./conversations";
 import { NavBar } from "./navigation";
 
 const routes = [{
@@ -16,8 +16,11 @@ const routes = [{
   path: '/new-conversation',
   private: true,
   Component: NewConversationPage,
-}
-];
+}, {
+  path: '/conversations/:id',
+  private: true,
+  Component: ConversationPage,
+}];
 
 export const Routes = ({isLoading, user}) => (
   <Router> 
