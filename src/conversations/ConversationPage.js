@@ -13,13 +13,24 @@ export const ConversationPage = () => {
     useEffect(() => {
         const establishSocketConnection = async () => {
             const socket = socketIoClient('http://127.0.0.1:8080', {
-                query: { conversationId }
+                query: { 
+                    conversationId,  
+                    token: await user.getIdToken(),
+                }
             });
 
-            setSocket(socket);           
+            setSocket(socket);  
+            socket.on('heresYourConversation', conversation => {
+                console.log('Initial messages loaded...');
+                console.log(conversation);
+                setMessages(conversation.messages);
+            })         
         }
 
-        establishSocketConnection();
+        if (user) {
+            establishSocketConnection();
+        }
+        
 
         return () => socket.disconnect();
     }, []);
