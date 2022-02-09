@@ -24,28 +24,37 @@ export const ConversationPage = () => {
                 console.log('Initial messages loaded...');
                 console.log(conversation);
                 setMessages(conversation.messages);
-            })         
+            });
+            
+            socket.on('messagesUpdate', data => {
+                console.log('Messages updated...');
+                setMessages(data);
+            });
         }
-
         if (user) {
             establishSocketConnection();
         }
-        
-
         return () => socket.disconnect();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-
-
     const postMessage = async (text) => {
-        // TODO
+        socket.emit('postMessage', {
+            text: messageInputValue,
+            conversationId,
+            query: {
+                conversationId,
+                token: await user.getIdToken(),                
+            },
+        });
+        setMessageInputValue('');
     }
 
     return (
         <div className="centered-container">
             {messages.map(message => (
                 <div key={message._id} className="list-item">
-                    <h3>{message.postedBy.name}</h3>
+                    <h3>{message.postedBy.fullName}</h3>
                     <p>{message.text}</p>
                 </div>
             ))}
